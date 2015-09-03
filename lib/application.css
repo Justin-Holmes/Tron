@@ -5,3 +5,19 @@ canvas {
   margin-right: auto;
   display: block;
 }
+
+#end {
+  margin: auto;
+  padding: auto;
+  width: 775px;
+  height: 175px;
+  background-color: green;
+}
+
+#end p {
+  color: white;
+  font-size: 40px;
+  font-family: "Georgia";
+  text-align: center;
+  padding-top: 67px;
+}
