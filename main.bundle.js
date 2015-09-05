@@ -1568,6 +1568,8 @@
 	};
 
 	Game.prototype.end = function () {
+	  clearInterval(window.gameLoopInterval);
+
 	  this.board.fillStyle = "green";
 	  this.board.fillRect(200, 200, 775, 175);
 
@@ -1583,7 +1585,6 @@
 	};
 
 	Game.prototype.start = function () {
-	  this.movePlayers();
 	  window.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
@@ -1592,7 +1593,6 @@
 	  //Detects border collisions
 
 	  if (xPosition == -1 || xPosition == 1200 / 10 || yPosition == -1 || yPosition == 600 / 10) {
-	    clearInterval(window.gameLoopInterval);
 	    this.end();
 	  }
 
@@ -1600,7 +1600,6 @@
 
 	  for (var i = 0; i < this.playerTrails.length; i++) {
 	    if (xPosition == this.playerTrails[i].x && yPosition == this.playerTrails[i].y) {
-	      clearInterval(window.gameLoopInterval);
 	      this.end();
 	    }
 	  }

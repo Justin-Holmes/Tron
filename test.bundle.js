@@ -47,7 +47,7 @@
 	__webpack_require__(4);
 	mocha.setup("bdd");
 	__webpack_require__(12)
-	__webpack_require__(53);
+	__webpack_require__(54);
 	if(false) {
 		module.hot.accept();
 		module.hot.dispose(function() {
@@ -1565,6 +1565,8 @@
 	};
 
 	Game.prototype.end = function () {
+	  clearInterval(window.gameLoopInterval);
+
 	  this.board.fillStyle = "green";
 	  this.board.fillRect(200, 200, 775, 175);
 
@@ -1580,7 +1582,6 @@
 	};
 
 	Game.prototype.start = function () {
-	  this.movePlayers();
 	  window.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
@@ -1589,7 +1590,6 @@
 	  //Detects border collisions
 
 	  if (xPosition == -1 || xPosition == 1200 / 10 || yPosition == -1 || yPosition == 600 / 10) {
-	    clearInterval(window.gameLoopInterval);
 	    this.end();
 	  }
 
@@ -1597,7 +1597,6 @@
 
 	  for (var i = 0; i < this.playerTrails.length; i++) {
 	    if (xPosition == this.playerTrails[i].x && yPosition == this.playerTrails[i].y) {
-	      clearInterval(window.gameLoopInterval);
 	      this.end();
 	    }
 	  }
@@ -1689,8 +1688,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css", function() {
-			var newContent = require("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css");
+		module.hot.accept("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css", function() {
+			var newContent = require("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -1958,6 +1957,7 @@
 	'use strict';
 
 	__webpack_require__(13);
+	__webpack_require__(53);
 
 /***/ },
 /* 13 */
@@ -9282,6 +9282,79 @@
 /* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var chai = __webpack_require__(14);
+	var assert = chai.assert;
+	var Game = __webpack_require__(2);
+	var Player = __webpack_require__(3);
+
+	describe('game', function () {
+
+	  it('should exist', function () {
+	    assert(Game);
+	  });
+
+	  var game;
+	  beforeEach(function () {
+	    game = new Game();
+	  });
+
+	  it('initializes with a 2 players and a playerTrails array', function () {
+	    assert(game.playerOne);
+	    assert(game.playerTwo);
+	    assert.equal(game.playerTrails.length, 0);
+	  });
+
+	  it('creates the board', function () {
+	    assert.equal(game.board, undefined);
+
+	    game.createBoard();
+
+	    assert(game.board);
+	  });
+
+	  it('moves both players', function () {
+	    assert.equal(game.playerTrails.length, 0);
+
+	    game.createBoard();
+	    game.movePlayers();
+
+	    assert.equal(game.playerTrails.length, 2);
+	  });
+
+	  it('starts a new game', function () {
+	    game.start();
+
+	    assert(window.gameLoopInterval);
+	  });
+
+	  it('ends a game', function () {
+	    game.createBoard();
+	    game.start();
+	    game.end();
+
+	    assert.equal(game.board.font, "40px Georgia");
+	  });
+
+	  it('detects a collision', function () {
+	    game.createBoard();
+	    var noCollision = [0, 0];
+	    var collisions = [[-1, 0], [120, 0], [0, -1], [0, 60]];
+
+	    assert.equal(game.detectCollision(noCollision), undefined);
+
+	    collisions.forEach(function (collision) {
+	      game.detectCollision(collision);
+	      assert.equal(game.board.font, "40px Georgia");
+	    });
+	  });
+	});
+
+/***/ },
+/* 54 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/* WEBPACK VAR INJECTION */(function(process) {process.nextTick(function() {
 		delete __webpack_require__.c[module.id];
 		if(typeof window !== "undefined" && window.mochaPhantomJS)
@@ -9290,10 +9363,10 @@
 			mocha.run();
 	});
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(54)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(55)))
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
