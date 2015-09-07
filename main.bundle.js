@@ -49,17 +49,18 @@
 	var $ = __webpack_require__(1);
 	var Game = __webpack_require__(2);
 
-	$(document).ready(function () {
-	  var game = new Game();
-	  game.start();
+	var game = new Game();
 
+	function keyInput() {
 	  $(document).keydown(function (k) {
-	    var key = k.which;
+	    game.playerOne.changeDirection(k.which);
+	    game.playerTwo.changeDirection(k.which);
+	  });
+	}
 
-	    game.playerOne.changeDirection(key);
-	    game.playerTwo.changeDirection(key);
-
-	    if (game.end && key == "13") {
+	function resetGame() {
+	  $(document).keydown(function (k) {
+	    if (game.end && k.which == "13") {
 	      document.getElementById("end").style.display = 'none';
 	      game.clearBoard;
 
@@ -67,6 +68,12 @@
 	      game.start();
 	    }
 	  });
+	}
+
+	$(document).ready(function () {
+	  game.start();
+	  keyInput();
+	  resetGame(game);
 	});
 
 /***/ },
