@@ -27,6 +27,9 @@ canvas {
 audio {
   margin: auto;
   display: block;
+  position: fixed;
+  left: 0;
+  bottom: 0;
 }
 
 body {
