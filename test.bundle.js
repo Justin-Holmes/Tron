@@ -1527,16 +1527,21 @@
 	var Player = __webpack_require__(3);
 	var $ = __webpack_require__(1);
 
-	function createBoard() {
+	function boardDetails() {
 	  var canvas = document.getElementById('game');
 	  var gameBoard = canvas.getContext("2d");
 	  var width = $(canvas).width();
 	  var height = $(canvas).height();
 
-	  gameBoard.fillStyle = "black";
-	  gameBoard.fillRect(0, 0, width, height);
+	  return { gameBoard: gameBoard, width: width, height: height };
+	}
 
-	  return gameBoard;
+	function createBoard() {
+	  var board = boardDetails();
+	  board.gameBoard.fillStyle = "black";
+	  board.gameBoard.fillRect(0, 0, board.width, board.height);
+
+	  return board.gameBoard;
 	}
 
 	function Game() {
@@ -1553,6 +1558,7 @@
 	    right: "39",
 	    down: "40"
 	  };
+	  this.end = false;
 	}
 
 	Game.prototype.createPlayers = function () {
@@ -1562,7 +1568,7 @@
 
 	Game.prototype.start = function () {
 	  this.createPlayers();
-	  window.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
+	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
 	Game.prototype.movePlayers = function () {
@@ -1571,41 +1577,36 @@
 	};
 
 	Game.prototype.detectCollision = function (position) {
-	  this.detectBorderCollision(position);
-	  this.detectPlayerCollision(position, this.playerOne);
-	  this.detectPlayerCollision(position, this.playerTwo);
-	};
+	  var border = this.borderCollision(position);
+	  var playerOneCollision = this.playerCollision(position, this.playerOne);
+	  var playerTwoCollision = this.playerCollision(position, this.playerTwo);
 
-	Game.prototype.detectBorderCollision = function (position) {
-	  if (position.x == -1 || position.x == 1200 / 10 || position.y == -1 || position.y == 600 / 10) {
-	    this.end();
+	  if (border || playerOneCollision || playerTwoCollision) {
+	    this.end = true;
+	    this.displayEndMessage();
 	  }
 	};
 
-	Game.prototype.detectPlayerCollision = function (position, player) {
+	Game.prototype.borderCollision = function (position) {
+	  return position.x == -1 || position.x == 1200 / 10 || position.y == -1 || position.y == 600 / 10;
+	};
+
+	Game.prototype.playerCollision = function (position, player) {
 	  for (var i = 0; i < player.trail.length; i++) {
 	    if (position.x === player.trail[i].x && position.y === player.trail[i].y) {
-	      this.end();
+	      return true;
 	    }
 	  }
 	};
 
-	Game.prototype.end = function () {
-
-	  clearInterval(window.gameLoopInterval);
+	Game.prototype.displayEndMessage = function () {
+	  clearInterval(this.gameLoopInterval);
 	  document.getElementById("end").style.display = 'inline';
+	};
 
-	  var game = this;
-	  $(document).keydown(function (k) {
-	    if (k.which == "13") {
-	      // $('canvas').remove();
-	      // $('body').prepend("<canvas id='game' width='1200' height='600'></canvas>");
-	      // document.getElementById("end").style.display = 'none';
-	      // game.board = createBoard();
-	      // game.start();
-	      document.location.reload(true);
-	    }
-	  });
+	Game.prototype.clearBoard = function () {
+	  var board = boardDetails();
+	  board.gameBoard.clearRect(0, 0, board.width, board.height);
 	};
 
 	module.exports = Game;
@@ -1625,10 +1626,12 @@
 
 	Player.prototype.move = function (game) {
 	  var nextPos = this.newPos();
-
 	  game.detectCollision(nextPos);
-	  this.trail.push(nextPos);
-	  this.colorize(game);
+
+	  if (game.end === false) {
+	    this.trail.push(nextPos);
+	    this.colorize(game);
+	  }
 	};
 
 	Player.prototype.newPos = function () {
@@ -1655,6 +1658,7 @@
 
 	Player.prototype.colorize = function (game) {
 	  var lastPos = this.trail[this.trail.length - 1];
+
 	  game.board.fillStyle = this.color;
 	  game.board.fillRect(lastPos.x * 10, lastPos.y * 10, 10, 10);
 	};
@@ -1697,8 +1701,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css", function() {
-			var newContent = require("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css");
+		module.hot.accept("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css", function() {
+			var newContent = require("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -9309,53 +9313,49 @@
 	    game = new Game();
 	  });
 
-	  it('initializes with a 2 players and a playerTrails array', function () {
-	    assert(game.playerOne);
-	    assert(game.playerTwo);
-	    assert.equal(game.playerTrails.length, 0);
+	  it('initializes correctly', function () {
+	    assert(game.board);
+	    assert(game.oneKeys);
+	    assert(game.twoKeys);
+	    assert.equal(game.end, false);
 	  });
 
-	  it('creates the board', function () {
-	    assert.equal(game.board, undefined);
+	  it('creates 2 player objects', function () {
+	    game.createPlayers();
 
-	    game.createBoard();
-
-	    assert(game.board);
+	    assert(game.playerOne);
+	    assert(game.playerTwo);
 	  });
 
 	  it('moves both players', function () {
-	    assert.equal(game.playerTrails.length, 0);
+	    game.createPlayers();
 
-	    game.createBoard();
+	    assert.equal(game.playerOne.trail.length, 1);
+	    assert.equal(game.playerTwo.trail.length, 1);
+
 	    game.movePlayers();
 
-	    assert.equal(game.playerTrails.length, 2);
+	    assert.equal(game.playerOne.trail.length, 2);
+	    assert.equal(game.playerTwo.trail.length, 2);
 	  });
 
 	  it('starts a new game', function () {
 	    game.start();
 
-	    assert(window.gameLoopInterval);
+	    assert(game.playerOne);
+	    assert(game.playerTwo);
+	    assert(game.gameLoopInterval);
 	  });
 
-	  it('ends a game', function () {
-	    game.createBoard();
+	  it('detects a border collision', function () {
 	    game.start();
-	    game.end();
+	    var noCollision = { x: 0, y: 0 };
+	    var collisions = [{ x: -1, y: 0 }, { x: 120, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 60 }];
 
-	    assert.equal(game.board.font, "40px Georgia");
-	  });
-
-	  it('detects a collision', function () {
-	    game.createBoard();
-	    var noCollision = [0, 0];
-	    var collisions = [[-1, 0], [120, 0], [0, -1], [0, 60]];
-
-	    assert.equal(game.detectCollision(noCollision), undefined);
+	    assert.equal(game.borderCollision(noCollision), false);
 
 	    collisions.forEach(function (collision) {
-	      game.detectCollision(collision);
-	      assert.equal(game.board.font, "40px Georgia");
+	      assert.equal(game.borderCollision(collision), true);
 	    });
 	  });
 	});
