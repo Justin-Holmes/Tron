@@ -1,7 +1,6 @@
 const chai   = require('chai');
 const assert = chai.assert;
 const Game   = require('../lib/game');
-const Player = require('../lib/player');
 
 describe('game', function() {
 

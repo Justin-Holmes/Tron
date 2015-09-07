@@ -9300,7 +9300,6 @@
 	var chai = __webpack_require__(14);
 	var assert = chai.assert;
 	var Game = __webpack_require__(2);
-	var Player = __webpack_require__(3);
 
 	describe('game', function () {
 
