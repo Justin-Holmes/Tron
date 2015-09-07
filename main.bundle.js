@@ -51,7 +51,6 @@
 
 	$(document).ready(function () {
 	  var game = new Game();
-	  game.createBoard();
 	  game.start();
 
 	  $(document).keydown(function (k) {
@@ -1530,27 +1529,7 @@
 	var Player = __webpack_require__(3);
 	var $ = __webpack_require__(1);
 
-	var oneKeys = {
-	  left: "65",
-	  up: "87",
-	  right: "68",
-	  down: "83"
-	};
-
-	var twoKeys = {
-	  left: "37",
-	  up: "38",
-	  right: "39",
-	  down: "40"
-	};
-
-	function Game() {
-	  this.playerOne = new Player("red", 10, 30, "right", oneKeys);
-	  this.playerTwo = new Player("blue", 110, 30, "left", twoKeys);
-	  this.playerTrails = [];
-	}
-
-	Game.prototype.createBoard = function () {
+	function createBoard() {
 	  var canvas = document.getElementById('game');
 	  var gameBoard = canvas.getContext("2d");
 	  var width = $(canvas).width();
@@ -1559,7 +1538,33 @@
 	  gameBoard.fillStyle = "black";
 	  gameBoard.fillRect(0, 0, width, height);
 
-	  this.board = gameBoard;
+	  return gameBoard;
+	}
+
+	function Game() {
+	  this.board = createBoard();
+	  this.oneKeys = {
+	    left: "65",
+	    up: "87",
+	    right: "68",
+	    down: "83"
+	  };
+	  this.twoKeys = {
+	    left: "37",
+	    up: "38",
+	    right: "39",
+	    down: "40"
+	  };
+	}
+
+	Game.prototype.createPlayers = function () {
+	  this.playerOne = new Player("red", { x: 10, y: 30 }, "right", this.oneKeys);
+	  this.playerTwo = new Player("blue", { x: 110, y: 30 }, "left", this.twoKeys);
+	};
+
+	Game.prototype.start = function () {
+	  this.createPlayers();
+	  window.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
 	Game.prototype.movePlayers = function () {
@@ -1567,42 +1572,42 @@
 	  this.playerTwo.move(this);
 	};
 
-	Game.prototype.end = function () {
-	  clearInterval(window.gameLoopInterval);
-
-	  this.board.fillStyle = "green";
-	  this.board.fillRect(200, 200, 775, 175);
-
-	  this.board.font = "40px Georgia";
-	  this.board.fillStyle = "white";
-
-	  this.board.fillText("Game Over! Press 'enter' to play again", 250, 300);
-
-	  $(document).keydown(function (k) {
-	    var key = k.which;
-	    if (key == "13") location.reload();
-	  });
+	Game.prototype.detectCollision = function (position) {
+	  this.detectBorderCollision(position);
+	  this.detectPlayerCollision(position, this.playerOne);
+	  this.detectPlayerCollision(position, this.playerTwo);
 	};
 
-	Game.prototype.start = function () {
-	  window.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
-	};
-
-	Game.prototype.detectCollision = function (xPosition, yPosition) {
-
-	  //Detects border collisions
-
-	  if (xPosition == -1 || xPosition == 1200 / 10 || yPosition == -1 || yPosition == 600 / 10) {
+	Game.prototype.detectBorderCollision = function (position) {
+	  if (position.x == -1 || position.x == 1200 / 10 || position.y == -1 || position.y == 600 / 10) {
 	    this.end();
 	  }
+	};
 
-	  //Detects collisions with player trails
-
-	  for (var i = 0; i < this.playerTrails.length; i++) {
-	    if (xPosition == this.playerTrails[i].x && yPosition == this.playerTrails[i].y) {
+	Game.prototype.detectPlayerCollision = function (position, player) {
+	  for (var i = 0; i < player.trail.length; i++) {
+	    if (position.x === player.trail[i].x && position.y === player.trail[i].y) {
 	      this.end();
 	    }
 	  }
+	};
+
+	Game.prototype.end = function () {
+
+	  clearInterval(window.gameLoopInterval);
+	  document.getElementById("end").style.display = 'inline';
+
+	  var game = this;
+	  $(document).keydown(function (k) {
+	    if (k.which == "13") {
+	      // $('canvas').remove();
+	      // $('body').prepend("<canvas id='game' width='1200' height='600'></canvas>");
+	      // document.getElementById("end").style.display = 'none';
+	      // game.board = createBoard();
+	      // game.start();
+	      document.location.reload(true);
+	    }
+	  });
 	};
 
 	module.exports = Game;
@@ -1613,9 +1618,9 @@
 
 	"use strict";
 
-	function Player(color, startingX, startingY, startingDirection, keyBindings) {
+	function Player(color, startingPos, startingDirection, keyBindings) {
 	  this.color = color;
-	  this.trail = [{ x: startingX, y: startingY }];
+	  this.trail = [startingPos];
 	  this.direction = startingDirection;
 	  this.keyBindings = keyBindings;
 	}
@@ -1623,10 +1628,9 @@
 	Player.prototype.move = function (game) {
 	  var nextPos = this.newPos();
 
+	  game.detectCollision(nextPos);
 	  this.trail.push(nextPos);
 	  this.colorize(game);
-	  game.detectCollision(nextPos.x, nextPos.y);
-	  game.playerTrails.push(nextPos);
 	};
 
 	Player.prototype.newPos = function () {
@@ -1652,17 +1656,21 @@
 	};
 
 	Player.prototype.colorize = function (game) {
-	  for (var i = 0; i < this.trail.length; i++) {
-	    var el = this.trail[i];
-
-	    game.board.fillStyle = this.color;
-	    game.board.fillRect(el.x * 10, el.y * 10, 10, 10);
-	  }
-	  return this.color;
+	  var lastPos = this.trail[this.trail.length - 1];
+	  game.board.fillStyle = this.color;
+	  game.board.fillRect(lastPos.x * 10, lastPos.y * 10, 10, 10);
 	};
 
 	Player.prototype.changeDirection = function (key) {
-	  if (key == this.keyBindings.left && this.direction != "right") this.direction = "left";else if (key == this.keyBindings.up && this.direction != "down") this.direction = "up";else if (key == this.keyBindings.right && this.direction != "left") this.direction = "right";else if (key == this.keyBindings.down && this.direction != "up") this.direction = "down";
+	  if (key == this.keyBindings.left && this.direction != "right") {
+	    this.direction = "left";
+	  } else if (key == this.keyBindings.up && this.direction != "down") {
+	    this.direction = "up";
+	  } else if (key == this.keyBindings.right && this.direction != "left") {
+	    this.direction = "right";
+	  } else if (key == this.keyBindings.down && this.direction != "up") {
+	    this.direction = "down";
+	  }
 	};
 
 	module.exports = Player;

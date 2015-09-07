@@ -7,6 +7,10 @@ canvas {
 }
 
 #end {
+  display: none;
+  position: absolute;
+  top: 200px;
+  left: 300px;
   margin: auto;
   padding: auto;
   width: 775px;
@@ -19,5 +23,10 @@ canvas {
   font-size: 40px;
   font-family: "Georgia";
   text-align: center;
-  padding-top: 67px;
+  padding-top: 20px;
+}
+
+audio {
+  margin: auto;
+  display: block;
 }
