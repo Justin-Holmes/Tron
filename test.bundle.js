@@ -9361,11 +9361,9 @@
 
 	  it('detects a player collision', function () {
 	    game.start();
-	    assert.equal(game.playerCollision({ x: 0, y: 0 }), false);
 
-	    game.playerOne.trail.push({ x: 0, y: 0 });
-
-	    assert.equal(game.playerCollision({ x: 0, y: 0 }, game.playerOne), true);
+	    assert.equal(game.playerCollision({ x: 0, y: 0 }, game.playerOne), undefined);
+	    assert.equal(game.playerCollision({ x: 10, y: 30 }, game.playerOne), true);
 	  });
 	});
 
