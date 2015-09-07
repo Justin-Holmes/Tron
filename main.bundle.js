@@ -49,16 +49,31 @@
 	var $ = __webpack_require__(1);
 	var Game = __webpack_require__(2);
 
-	$(document).ready(function () {
-	  var game = new Game();
-	  game.start();
+	var game = new Game();
 
+	function keyInput() {
 	  $(document).keydown(function (k) {
-	    var key = k.which;
-
-	    game.playerOne.changeDirection(key);
-	    game.playerTwo.changeDirection(key);
+	    game.playerOne.changeDirection(k.which);
+	    game.playerTwo.changeDirection(k.which);
 	  });
+	}
+
+	function resetGame() {
+	  $(document).keydown(function (k) {
+	    if (game.end && k.which == "13") {
+	      document.getElementById("end").style.display = 'none';
+	      game.clearBoard;
+
+	      game = new Game();
+	      game.start();
+	    }
+	  });
+	}
+
+	$(document).ready(function () {
+	  game.start();
+	  keyInput();
+	  resetGame(game);
 	});
 
 /***/ },
@@ -1529,16 +1544,21 @@
 	var Player = __webpack_require__(3);
 	var $ = __webpack_require__(1);
 
-	function createBoard() {
+	function boardDetails() {
 	  var canvas = document.getElementById('game');
 	  var gameBoard = canvas.getContext("2d");
 	  var width = $(canvas).width();
 	  var height = $(canvas).height();
 
-	  gameBoard.fillStyle = "black";
-	  gameBoard.fillRect(0, 0, width, height);
+	  return { gameBoard: gameBoard, width: width, height: height };
+	}
 
-	  return gameBoard;
+	function createBoard() {
+	  var board = boardDetails();
+	  board.gameBoard.fillStyle = "black";
+	  board.gameBoard.fillRect(0, 0, board.width, board.height);
+
+	  return board.gameBoard;
 	}
 
 	function Game() {
@@ -1555,6 +1575,7 @@
 	    right: "39",
 	    down: "40"
 	  };
+	  this.end = false;
 	}
 
 	Game.prototype.createPlayers = function () {
@@ -1564,7 +1585,7 @@
 
 	Game.prototype.start = function () {
 	  this.createPlayers();
-	  window.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
+	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
 	Game.prototype.movePlayers = function () {
@@ -1573,41 +1594,36 @@
 	};
 
 	Game.prototype.detectCollision = function (position) {
-	  this.detectBorderCollision(position);
-	  this.detectPlayerCollision(position, this.playerOne);
-	  this.detectPlayerCollision(position, this.playerTwo);
-	};
+	  var border = this.borderCollision(position);
+	  var playerOneCollision = this.playerCollision(position, this.playerOne);
+	  var playerTwoCollision = this.playerCollision(position, this.playerTwo);
 
-	Game.prototype.detectBorderCollision = function (position) {
-	  if (position.x == -1 || position.x == 1200 / 10 || position.y == -1 || position.y == 600 / 10) {
-	    this.end();
+	  if (border || playerOneCollision || playerTwoCollision) {
+	    this.end = true;
+	    this.displayEndMessage();
 	  }
 	};
 
-	Game.prototype.detectPlayerCollision = function (position, player) {
+	Game.prototype.borderCollision = function (position) {
+	  return position.x == -1 || position.x == 1200 / 10 || position.y == -1 || position.y == 600 / 10;
+	};
+
+	Game.prototype.playerCollision = function (position, player) {
 	  for (var i = 0; i < player.trail.length; i++) {
 	    if (position.x === player.trail[i].x && position.y === player.trail[i].y) {
-	      this.end();
+	      return true;
 	    }
 	  }
 	};
 
-	Game.prototype.end = function () {
-
-	  clearInterval(window.gameLoopInterval);
+	Game.prototype.displayEndMessage = function () {
+	  clearInterval(this.gameLoopInterval);
 	  document.getElementById("end").style.display = 'inline';
+	};
 
-	  var game = this;
-	  $(document).keydown(function (k) {
-	    if (k.which == "13") {
-	      // $('canvas').remove();
-	      // $('body').prepend("<canvas id='game' width='1200' height='600'></canvas>");
-	      // document.getElementById("end").style.display = 'none';
-	      // game.board = createBoard();
-	      // game.start();
-	      document.location.reload(true);
-	    }
-	  });
+	Game.prototype.clearBoard = function () {
+	  var board = boardDetails();
+	  board.gameBoard.clearRect(0, 0, board.width, board.height);
 	};
 
 	module.exports = Game;
@@ -1627,10 +1643,12 @@
 
 	Player.prototype.move = function (game) {
 	  var nextPos = this.newPos();
-
 	  game.detectCollision(nextPos);
-	  this.trail.push(nextPos);
-	  this.colorize(game);
+
+	  if (game.end === false) {
+	    this.trail.push(nextPos);
+	    this.colorize(game);
+	  }
 	};
 
 	Player.prototype.newPos = function () {
@@ -1657,6 +1675,7 @@
 
 	Player.prototype.colorize = function (game) {
 	  var lastPos = this.trail[this.trail.length - 1];
+
 	  game.board.fillStyle = this.color;
 	  game.board.fillRect(lastPos.x * 10, lastPos.y * 10, 10, 10);
 	};
