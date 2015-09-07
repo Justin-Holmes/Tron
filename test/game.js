@@ -1,7 +1,6 @@
 const chai   = require('chai');
 const assert = chai.assert;
 const Game   = require('../lib/game');
-const Player = require('../lib/player');
 
 describe('game', function() {
 
@@ -14,54 +13,56 @@ describe('game', function() {
     game = new Game();
   });
 
-
-  it('initializes with a 2 players and a playerTrails array', function() {
-    assert(game.playerOne);
-    assert(game.playerTwo);
-    assert.equal(game.playerTrails.length, 0);
+  it('initializes correctly', function() {
+    assert(game.board);
+    assert(game.oneKeys);
+    assert(game.twoKeys);
+    assert.equal(game.end, false);
   });
 
-  it('creates the board', function() {
-    assert.equal(game.board, undefined);
+  it('creates 2 player objects', function() {
+    game.createPlayers();
 
-    game.createBoard();
-
-    assert(game.board);
+    assert(game.playerOne);
+    assert(game.playerTwo);
   });
 
   it('moves both players', function() {
-    assert.equal(game.playerTrails.length, 0);
+    game.createPlayers();
 
-    game.createBoard();
+    assert.equal(game.playerOne.trail.length, 1);
+    assert.equal(game.playerTwo.trail.length, 1);
+
     game.movePlayers();
 
-    assert.equal(game.playerTrails.length, 2);
+    assert.equal(game.playerOne.trail.length, 2);
+    assert.equal(game.playerTwo.trail.length, 2);
   });
 
   it('starts a new game', function() {
     game.start();
 
-    assert(window.gameLoopInterval);
+    assert(game.playerOne);
+    assert(game.playerTwo);
+    assert(game.gameLoopInterval);
   });
 
-  it('ends a game', function() {
-    game.createBoard();
+  it('detects a border collision', function() {
     game.start();
-    game.end();
+    var noCollision = { x: 0, y: 0 };
+    var collisions   = [{ x: -1, y: 0 }, { x: 120, y: 0 }, { x: 0, y: -1}, { x: 0, y: 60 }];
 
-    assert.equal(game.board.font, "40px Georgia");
-  });
-
-  it('detects a collision', function() {
-    game.createBoard();
-    var noCollision = [0,0];
-    var collisions   = [[-1, 0], [120, 0], [0, -1], [0, 60]];
-
-    assert.equal(game.detectCollision(noCollision), undefined);
+    assert.equal(game.borderCollision(noCollision), false);
 
     collisions.forEach(function(collision){
-      game.detectCollision(collision);
-      assert.equal(game.board.font, "40px Georgia");
+      assert.equal(game.borderCollision(collision), true);
     });
+  });
+
+  it('detects a player collision', function() {
+    game.start();
+
+    assert.equal(game.playerCollision({ x: 0, y: 0 }, game.playerOne), undefined);
+    assert.equal(game.playerCollision({ x: 10, y: 30 }, game.playerOne), true);
   });
 });
