@@ -1,7 +1,7 @@
-const chai = require('chai');
+const chai   = require('chai');
 const assert = chai.assert;
 const Player = require('../lib/player');
-const Game = require('../lib/game');
+const Game   = require('../lib/game');
 
 const keys = {
   left:  "37",
