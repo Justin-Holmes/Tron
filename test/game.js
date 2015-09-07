@@ -14,7 +14,6 @@ describe('game', function() {
   });
 
   it('initializes correctly', function() {
-    assert(game.board);
     assert(game.oneKeys);
     assert(game.twoKeys);
     assert.equal(game.end, false);
@@ -33,6 +32,7 @@ describe('game', function() {
     assert.equal(game.playerOne.trail.length, 1);
     assert.equal(game.playerTwo.trail.length, 1);
 
+    game.createBoard();
     game.movePlayers();
 
     assert.equal(game.playerOne.trail.length, 2);

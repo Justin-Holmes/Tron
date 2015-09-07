@@ -72,6 +72,7 @@ describe('player within game object', function() {
   var game;
   beforeEach(function() {
     game = new Game();
+    game.createBoard();
     game.playerOne = new Player("red", { x: 10, y: 30 }, "right", otherKeys);
     game.playerTwo = new Player("blue", { x: 110, y: 30 }, "left", keys);
   });
