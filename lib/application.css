@@ -25,3 +25,8 @@ canvas {
   text-align: center;
   padding-top: 20px;
 }
+
+audio {
+  margin: auto;
+  display: block;
+}
