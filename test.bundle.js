@@ -1527,16 +1527,21 @@
 	var Player = __webpack_require__(3);
 	var $ = __webpack_require__(1);
 
-	function createBoard() {
+	function boardDetails() {
 	  var canvas = document.getElementById('game');
 	  var gameBoard = canvas.getContext("2d");
 	  var width = $(canvas).width();
 	  var height = $(canvas).height();
 
-	  gameBoard.fillStyle = "black";
-	  gameBoard.fillRect(0, 0, width, height);
+	  return { gameBoard: gameBoard, width: width, height: height };
+	}
 
-	  return gameBoard;
+	function createBoard() {
+	  var board = boardDetails();
+	  board.gameBoard.fillStyle = "black";
+	  board.gameBoard.fillRect(0, 0, board.width, board.height);
+
+	  return board.gameBoard;
 	}
 
 	function Game() {
@@ -1553,6 +1558,7 @@
 	    right: "39",
 	    down: "40"
 	  };
+	  this.end = false;
 	}
 
 	Game.prototype.createPlayers = function () {
@@ -1562,7 +1568,7 @@
 
 	Game.prototype.start = function () {
 	  this.createPlayers();
-	  window.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
+	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
 	Game.prototype.movePlayers = function () {
@@ -1571,41 +1577,36 @@
 	};
 
 	Game.prototype.detectCollision = function (position) {
-	  this.detectBorderCollision(position);
-	  this.detectPlayerCollision(position, this.playerOne);
-	  this.detectPlayerCollision(position, this.playerTwo);
-	};
+	  var border = this.borderCollision(position);
+	  var playerOneCollision = this.playerCollision(position, this.playerOne);
+	  var playerTwoCollision = this.playerCollision(position, this.playerTwo);
 
-	Game.prototype.detectBorderCollision = function (position) {
-	  if (position.x == -1 || position.x == 1200 / 10 || position.y == -1 || position.y == 600 / 10) {
-	    this.end();
+	  if (border || playerOneCollision || playerTwoCollision) {
+	    this.end = true;
+	    this.displayEndMessage();
 	  }
 	};
 
-	Game.prototype.detectPlayerCollision = function (position, player) {
+	Game.prototype.borderCollision = function (position) {
+	  return position.x == -1 || position.x == 1200 / 10 || position.y == -1 || position.y == 600 / 10;
+	};
+
+	Game.prototype.playerCollision = function (position, player) {
 	  for (var i = 0; i < player.trail.length; i++) {
 	    if (position.x === player.trail[i].x && position.y === player.trail[i].y) {
-	      this.end();
+	      return true;
 	    }
 	  }
 	};
 
-	Game.prototype.end = function () {
-
-	  clearInterval(window.gameLoopInterval);
+	Game.prototype.displayEndMessage = function () {
+	  clearInterval(this.gameLoopInterval);
 	  document.getElementById("end").style.display = 'inline';
+	};
 
-	  var game = this;
-	  $(document).keydown(function (k) {
-	    if (k.which == "13") {
-	      // $('canvas').remove();
-	      // $('body').prepend("<canvas id='game' width='1200' height='600'></canvas>");
-	      // document.getElementById("end").style.display = 'none';
-	      // game.board = createBoard();
-	      // game.start();
-	      document.location.reload(true);
-	    }
-	  });
+	Game.prototype.clearBoard = function () {
+	  var board = boardDetails();
+	  board.gameBoard.clearRect(0, 0, board.width, board.height);
 	};
 
 	module.exports = Game;
@@ -1625,10 +1626,12 @@
 
 	Player.prototype.move = function (game) {
 	  var nextPos = this.newPos();
-
 	  game.detectCollision(nextPos);
-	  this.trail.push(nextPos);
-	  this.colorize(game);
+
+	  if (game.end === false) {
+	    this.trail.push(nextPos);
+	    this.colorize(game);
+	  }
 	};
 
 	Player.prototype.newPos = function () {
@@ -1655,6 +1658,7 @@
 
 	Player.prototype.colorize = function (game) {
 	  var lastPos = this.trail[this.trail.length - 1];
+
 	  game.board.fillStyle = this.color;
 	  game.board.fillRect(lastPos.x * 10, lastPos.y * 10, 10, 10);
 	};
@@ -1979,10 +1983,12 @@
 	var Player = __webpack_require__(3);
 	var Game = __webpack_require__(2);
 
-	var keys = { left: "37",
+	var keys = {
+	  left: "37",
 	  up: "38",
 	  right: "39",
-	  down: "40" };
+	  down: "40"
+	};
 
 	describe('player', function () {
 
@@ -1992,7 +1998,7 @@
 
 	  var player;
 	  beforeEach(function () {
-	    player = new Player("blue", 110, 30, "left", keys);
+	    player = new Player("blue", { x: 110, y: 30 }, "left", keys);
 	  });
 
 	  it('initializes with a color, trail, direction, and keyBindings', function () {
@@ -2033,23 +2039,34 @@
 	  });
 	});
 
-	describe('player with game object', function () {
+	var otherKeys = {
+	  left: "65",
+	  up: "87",
+	  right: "68",
+	  down: "83"
+	};
+
+	describe('player within game object', function () {
 
 	  var game;
-	  var player;
 	  beforeEach(function () {
 	    game = new Game();
-	    game.createBoard();
-	    player = new Player("blue", 110, 30, "left", keys);
+	    game.playerOne = new Player("red", { x: 10, y: 30 }, "right", otherKeys);
+	    game.playerTwo = new Player("blue", { x: 110, y: 30 }, "left", keys);
 	  });
 
-	  it('colorizes the player', function () {
-	    assert.equal(player.colorize(game), "blue");
+	  it('moves player one', function () {
+	    game.playerOne.move(game);
+	    var lastPos = game.playerOne.trail[game.playerOne.trail.length - 1];
+
+	    assert.equal(lastPos.x, 11);
+	    assert.equal(lastPos.y, 30);
 	  });
 
-	  it('moves the player', function () {
-	    player.move(game);
-	    var lastPos = player.trail[player.trail.length - 1];
+	  it('moves player two', function () {
+	    game.playerTwo.move(game);
+	    var lastPos = game.playerTwo.trail[game.playerTwo.trail.length - 1];
+
 	    assert.equal(lastPos.x, 109);
 	    assert.equal(lastPos.y, 30);
 	  });

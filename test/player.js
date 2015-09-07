@@ -3,10 +3,12 @@ const assert = chai.assert;
 const Player = require('../lib/player');
 const Game = require('../lib/game');
 
-const keys = { left:  "37",
-               up:    "38",
-               right: "39",
-               down:  "40" };
+const keys = {
+  left:  "37",
+  up:    "38",
+  right: "39",
+  down:  "40"
+};
 
 describe('player', function() {
 
@@ -16,7 +18,7 @@ describe('player', function() {
 
   var player;
   beforeEach(function() {
-    player = new Player("blue", 110, 30, "left", keys);
+    player = new Player("blue", { x: 110, y: 30 }, "left", keys);
   });
 
   it('initializes with a color, trail, direction, and keyBindings', function() {
@@ -58,23 +60,34 @@ describe('player', function() {
 
 });
 
-describe('player with game object', function() {
+const otherKeys = {
+  left:  "65",
+  up:    "87",
+  right: "68",
+  down:  "83"
+};
+
+describe('player within game object', function() {
 
   var game;
-  var player;
   beforeEach(function() {
     game = new Game();
-    game.createBoard();
-    player = new Player("blue", 110, 30, "left", keys);
+    game.playerOne = new Player("red", { x: 10, y: 30 }, "right", otherKeys);
+    game.playerTwo = new Player("blue", { x: 110, y: 30 }, "left", keys);
   });
 
-  it('colorizes the player', function() {
-    assert.equal(player.colorize(game), "blue");
+  it('moves player one', function(){
+    game.playerOne.move(game);
+    var lastPos = game.playerOne.trail[game.playerOne.trail.length - 1]
+
+    assert.equal(lastPos.x, 11);
+    assert.equal(lastPos.y, 30);
   });
 
-  it('moves the player', function(){
-    player.move(game);
-    var lastPos = player.trail[player.trail.length - 1]
+  it('moves player two', function(){
+    game.playerTwo.move(game);
+    var lastPos = game.playerTwo.trail[game.playerTwo.trail.length - 1]
+
     assert.equal(lastPos.x, 109);
     assert.equal(lastPos.y, 30);
   });
