@@ -53,27 +53,28 @@
 
 	function keyInput() {
 	  $(document).keydown(function (k) {
-	    game.playerOne.changeDirection(k.which);
-	    game.playerTwo.changeDirection(k.which);
+	    playersChangeDirection(k.which);
+	    resetGame(k.which);
 	  });
 	}
 
-	function resetGame() {
-	  $(document).keydown(function (k) {
-	    if (game.end && k.which == "13") {
-	      document.getElementById("end").style.display = 'none';
-	      game.clearBoard;
+	function playersChangeDirection(key) {
+	  game.playerOne.changeDirection(key);
+	  game.playerTwo.changeDirection(key);
+	}
 
-	      game = new Game();
-	      game.start();
-	    }
-	  });
+	function resetGame(key) {
+	  if (game.end && key == "13") {
+	    document.getElementById("end").style.display = 'none';
+
+	    game = new Game();
+	    game.start();
+	  }
 	}
 
 	$(document).ready(function () {
 	  game.start();
 	  keyInput();
-	  resetGame(game);
 	});
 
 /***/ },
@@ -1544,25 +1545,7 @@
 	var Player = __webpack_require__(3);
 	var $ = __webpack_require__(1);
 
-	function boardDetails() {
-	  var canvas = document.getElementById('game');
-	  var gameBoard = canvas.getContext("2d");
-	  var width = $(canvas).width();
-	  var height = $(canvas).height();
-
-	  return { gameBoard: gameBoard, width: width, height: height };
-	}
-
-	function createBoard() {
-	  var board = boardDetails();
-	  board.gameBoard.fillStyle = "black";
-	  board.gameBoard.fillRect(0, 0, board.width, board.height);
-
-	  return board.gameBoard;
-	}
-
 	function Game() {
-	  this.board = createBoard();
 	  this.oneKeys = {
 	    left: "65",
 	    up: "87",
@@ -1578,12 +1561,23 @@
 	  this.end = false;
 	}
 
+	Game.prototype.createBoard = function () {
+	  var canvas = document.getElementById('game');
+	  this.board = canvas.getContext("2d");
+	  var width = $(canvas).width();
+	  var height = $(canvas).height();
+
+	  this.board.fillStyle = "black";
+	  this.board.fillRect(0, 0, width, height);
+	};
+
 	Game.prototype.createPlayers = function () {
 	  this.playerOne = new Player("red", { x: 10, y: 30 }, "right", this.oneKeys);
 	  this.playerTwo = new Player("blue", { x: 110, y: 30 }, "left", this.twoKeys);
 	};
 
 	Game.prototype.start = function () {
+	  this.createBoard();
 	  this.createPlayers();
 	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
@@ -1619,11 +1613,6 @@
 	Game.prototype.displayEndMessage = function () {
 	  clearInterval(this.gameLoopInterval);
 	  document.getElementById("end").style.display = 'inline';
-	};
-
-	Game.prototype.clearBoard = function () {
-	  var board = boardDetails();
-	  board.gameBoard.clearRect(0, 0, board.width, board.height);
 	};
 
 	module.exports = Game;

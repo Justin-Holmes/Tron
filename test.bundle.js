@@ -1527,25 +1527,7 @@
 	var Player = __webpack_require__(3);
 	var $ = __webpack_require__(1);
 
-	function boardDetails() {
-	  var canvas = document.getElementById('game');
-	  var gameBoard = canvas.getContext("2d");
-	  var width = $(canvas).width();
-	  var height = $(canvas).height();
-
-	  return { gameBoard: gameBoard, width: width, height: height };
-	}
-
-	function createBoard() {
-	  var board = boardDetails();
-	  board.gameBoard.fillStyle = "black";
-	  board.gameBoard.fillRect(0, 0, board.width, board.height);
-
-	  return board.gameBoard;
-	}
-
 	function Game() {
-	  this.board = createBoard();
 	  this.oneKeys = {
 	    left: "65",
 	    up: "87",
@@ -1561,12 +1543,23 @@
 	  this.end = false;
 	}
 
+	Game.prototype.createBoard = function () {
+	  var canvas = document.getElementById('game');
+	  this.board = canvas.getContext("2d");
+	  var width = $(canvas).width();
+	  var height = $(canvas).height();
+
+	  this.board.fillStyle = "black";
+	  this.board.fillRect(0, 0, width, height);
+	};
+
 	Game.prototype.createPlayers = function () {
 	  this.playerOne = new Player("red", { x: 10, y: 30 }, "right", this.oneKeys);
 	  this.playerTwo = new Player("blue", { x: 110, y: 30 }, "left", this.twoKeys);
 	};
 
 	Game.prototype.start = function () {
+	  this.createBoard();
 	  this.createPlayers();
 	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
@@ -1602,11 +1595,6 @@
 	Game.prototype.displayEndMessage = function () {
 	  clearInterval(this.gameLoopInterval);
 	  document.getElementById("end").style.display = 'inline';
-	};
-
-	Game.prototype.clearBoard = function () {
-	  var board = boardDetails();
-	  board.gameBoard.clearRect(0, 0, board.width, board.height);
 	};
 
 	module.exports = Game;
@@ -1701,8 +1689,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css", function() {
-			var newContent = require("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css");
+		module.hot.accept("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css", function() {
+			var newContent = require("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -2051,6 +2039,7 @@
 	  var game;
 	  beforeEach(function () {
 	    game = new Game();
+	    game.createBoard();
 	    game.playerOne = new Player("red", { x: 10, y: 30 }, "right", otherKeys);
 	    game.playerTwo = new Player("blue", { x: 110, y: 30 }, "left", keys);
 	  });
@@ -9326,7 +9315,6 @@
 	  });
 
 	  it('initializes correctly', function () {
-	    assert(game.board);
 	    assert(game.oneKeys);
 	    assert(game.twoKeys);
 	    assert.equal(game.end, false);
@@ -9345,6 +9333,7 @@
 	    assert.equal(game.playerOne.trail.length, 1);
 	    assert.equal(game.playerTwo.trail.length, 1);
 
+	    game.createBoard();
 	    game.movePlayers();
 
 	    assert.equal(game.playerOne.trail.length, 2);
