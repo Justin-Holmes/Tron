@@ -3,17 +3,64 @@
   <head>
     <meta charset="utf-8">
     <title>Tron</title>
+    <link href='https://fonts.googleapis.com/css?family=Orbitron:400' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="application.css">
   </head>
   <body>
     <canvas id="game" width="800" height="480"></canvas>
 
-    <div id="end">
-      <p>Game Over</p>
-      <p>Press 'enter' to play again</p>
+    <div id="instructions">
+      <h1>Instructions</h1>
+      <p>Avoid colliding with the walls and the other player.</p>
+      <p>Winner stays alive longest.</p>
+      <p>Press "enter" to play.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Player 1</th>
+            <th>Player 2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="color">Color: Blue</td>
+            <td class="color">Color: Yellow</td>
+          </tr>
+
+          <tr>
+            <td class="controls">Controls</td>
+            <td class="controls">Controls</td>
+          </tr>
+
+          <tr>
+            <td class="buttons">A: Left</td>
+            <td class="buttons">Left Arrow: Left</td>
+          </tr>
+
+          <tr>
+            <td class="buttons">D: Right</td>
+            <td class="buttons">Right Arrow: Right</td>
+          </tr>
+
+          <tr>
+            <td class="buttons">W: Up</td>
+            <td class="buttons">Up Array: Up</td>
+          </tr>
+
+          <tr>
+            <td class="buttons">S: Down</td>
+            <td class="buttons">Down Array: Down</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <audio id="audio" src="./lib//assets/sandstorm.mp3" autoplay controls loop></audio>
+    <div id="end">
+      <p>Game Over</p>
+      <p>Press "enter" to play again</p>
+    </div>
+
+    <audio id="audio" src="./lib/assets/sandstorm.mp3" autoplay controls loop></audio>
 
     <script src="main.bundle.js"></script>
   </body>
