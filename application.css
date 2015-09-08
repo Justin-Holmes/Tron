@@ -9,6 +9,59 @@ canvas {
   top: 0; left: 0; bottom: 0; right: 0;
 }
 
+#instructions {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  z-index: 1;
+  width: 800px;
+  height: 480px;
+  background-color: rgba(12, 20, 31, .7);
+  color: #6FC3DF;
+  font-size: 20px;
+  font-family: 'Orbitron', sans-serif;
+  text-align: center;
+
+}
+
+#instructions h1 {
+  color: #6FC3DF;
+  font-size: 50px;
+  font-family: 'Tron';
+  margin-bottom: 20px;
+}
+
+#instructions p {
+  margin: 5px;
+}
+
+#instructions table {
+  margin:auto;
+  margin-top: 25px;
+}
+
+#instructions th {
+  font-size: 30px;
+  padding: 0 75px 0 75px;
+}
+
+.color {
+  padding-bottom: 10px;
+  font-size: 18px;
+}
+
+.controls {
+  padding: 10px;
+  font-size: 23px;
+  border: 1px solid #6FC3DF;
+}
+
+.buttons {
+  padding: 5px 3px 5px 3px;
+  border: 1px solid #6FC3DF;
+  font-size: 18px;
+}
+
 #end {
   margin: auto;
   position: absolute;
@@ -38,4 +91,16 @@ audio {
 body {
   background-image: url("lib/assets/images/tron-background.jpg");
   background-size:cover;
+}
+
+#start-game {
+  color: limegreen;
+}
+
+#player1 {
+  color: #14CDE8;
+}
+
+#player2 {
+  color: #E2AA13;
 }

@@ -1567,6 +1567,7 @@
 	Game.prototype.start = function () {
 	  this.createBoard();
 	  this.createPlayers();
+	  debugger;
 	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
@@ -1659,14 +1660,13 @@
 	};
 
 	Player.prototype.changeDirection = function (key) {
-	  debugger;
-	  if (key === this.keyBindings.left && this.direction !== "right") {
+	  if (key == this.keyBindings.left && this.direction !== "right") {
 	    this.direction = "left";
-	  } else if (key === this.keyBindings.up && this.direction !== "down") {
+	  } else if (key == this.keyBindings.up && this.direction !== "down") {
 	    this.direction = "up";
-	  } else if (key === this.keyBindings.right && this.direction !== "left") {
+	  } else if (key == this.keyBindings.right && this.direction !== "left") {
 	    this.direction = "right";
-	  } else if (key === this.keyBindings.down && this.direction !== "up") {
+	  } else if (key == this.keyBindings.down && this.direction !== "up") {
 	    this.direction = "down";
 	  }
 	};

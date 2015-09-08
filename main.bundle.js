@@ -58,6 +58,7 @@
 
 	function keyInput() {
 	  $(document).keydown(function (k) {
+	    startGame(k.which);
 	    playersChangeDirection(k.which);
 	    resetGame(k.which);
 	  });
@@ -74,6 +75,23 @@
 	    game = new Game();
 	    game.start();
 	  }
+	}
+
+	function startGame(key) {
+	  if (key === 13 && typeof game.playerOne !== "object") {
+	    game.start();
+	    document.getElementById("instructions").style.display = 'none';
+	  }
+	}
+
+	$(document).ready(function () {
+	  keyInput();
+	  flashStartGame();
+	});
+
+	function flashStartGame() {
+	  $('#start-game').animate({ opacity: .2 }, 1200);
+	  $('#start-game').animate({ opacity: .9 }, 1200, flashStartGame);
 	}
 
 /***/ },
@@ -1584,6 +1602,7 @@
 	Game.prototype.start = function () {
 	  this.createBoard();
 	  this.createPlayers();
+	  debugger;
 	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
@@ -1676,14 +1695,13 @@
 	};
 
 	Player.prototype.changeDirection = function (key) {
-	  debugger;
-	  if (key === this.keyBindings.left && this.direction !== "right") {
+	  if (key == this.keyBindings.left && this.direction !== "right") {
 	    this.direction = "left";
-	  } else if (key === this.keyBindings.up && this.direction !== "down") {
+	  } else if (key == this.keyBindings.up && this.direction !== "down") {
 	    this.direction = "up";
-	  } else if (key === this.keyBindings.right && this.direction !== "left") {
+	  } else if (key == this.keyBindings.right && this.direction !== "left") {
 	    this.direction = "right";
-	  } else if (key === this.keyBindings.down && this.direction !== "up") {
+	  } else if (key == this.keyBindings.down && this.direction !== "up") {
 	    this.direction = "down";
 	  }
 	};

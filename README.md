@@ -1,27 +1,5 @@
-# Game Time Starter Kit
+# TRON: Light Cycle Game
 
-To install the dependencies:
+Live link: http://justin-holmes.github.io/Tron/
 
-```
-npm install
-```
-
-To fire up a development server:
-
-```
-npm start
-```
-
-
-To build the static files:
-
-```js
-npm build
-```
-
-
-To run tests:
-
-```js
-npm test
-```
+Created by [aoili](https://github.com/aoili) and myself.
