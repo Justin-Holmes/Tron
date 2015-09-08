@@ -21,12 +21,18 @@ canvas {
   font-size: 20px;
   font-family: 'Orbitron', sans-serif;
   text-align: center;
+
 }
 
 #instructions h1 {
   color: #6FC3DF;
   font-size: 50px;
   font-family: 'Tron';
+  margin-bottom: 20px;
+}
+
+#instructions p {
+  margin: 5px;
 }
 
 #instructions table {
