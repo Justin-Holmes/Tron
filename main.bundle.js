@@ -82,7 +82,13 @@
 
 	$(document).ready(function () {
 	  keyInput();
+	  flashStartGame();
 	});
+
+	function flashStartGame() {
+	  $('#start-game').animate({ opacity: .2 }, 1200);
+	  $('#start-game').animate({ opacity: .9 }, 1200, flashStartGame);
+	}
 
 /***/ },
 /* 1 */
