@@ -50,7 +50,7 @@ describe('game', function() {
   it('detects a border collision', function() {
     game.start();
     var noCollision = { x: 0, y: 0 };
-    var collisions   = [{ x: -1, y: 0 }, { x: 120, y: 0 }, { x: 0, y: -1}, { x: 0, y: 60 }];
+    var collisions   = [{ x: -1, y: 0 }, { x: 100, y: 0 }, { x: 0, y: -1}, { x: 0, y: 60 }];
 
     assert.equal(game.borderCollision(noCollision), false);
 

@@ -1564,16 +1564,22 @@
 	Game.prototype.createBoard = function () {
 	  var canvas = document.getElementById('game');
 	  this.board = canvas.getContext("2d");
+	  var context = canvas.getContext("2d");
 	  var width = $(canvas).width();
 	  var height = $(canvas).height();
+	  var img = new Image();
+	  img.src = "./lib/grid.png";
 
-	  this.board.fillStyle = "black";
-	  this.board.fillRect(0, 0, width, height);
+	  img.onload = function () {
+	    var pattern = context.createPattern(img, "repeat");
+	    context.fillStyle = pattern;
+	    context.fillRect(0, 0, width, height);
+	  };
 	};
 
 	Game.prototype.createPlayers = function () {
-	  this.playerOne = new Player("red", { x: 10, y: 30 }, "right", this.oneKeys);
-	  this.playerTwo = new Player("blue", { x: 110, y: 30 }, "left", this.twoKeys);
+	  this.playerOne = new Player("#14CDE8", { x: 10, y: 30 }, "right", this.oneKeys);
+	  this.playerTwo = new Player("#E2AA13", { x: 90, y: 30 }, "left", this.twoKeys);
 	};
 
 	Game.prototype.start = function () {
@@ -1599,7 +1605,7 @@
 	};
 
 	Game.prototype.borderCollision = function (position) {
-	  return position.x == -1 || position.x == 1200 / 10 || position.y == -1 || position.y == 600 / 10;
+	  return position.x == -1 || position.x == 800 / 8 || position.y == -1 || position.y == 480 / 8;
 	};
 
 	Game.prototype.playerCollision = function (position, player) {
@@ -1664,9 +1670,10 @@
 
 	Player.prototype.colorize = function (game) {
 	  var lastPos = this.trail[this.trail.length - 1];
-
-	  game.board.fillStyle = this.color;
-	  game.board.fillRect(lastPos.x * 10, lastPos.y * 10, 10, 10);
+	  game.board.strokeStyle = this.color;
+	  game.board.strokeRect(lastPos.x * 8, lastPos.y * 8, 8, 8);
+	  game.board.fillStyle = "rgba(" + hexToRgb(this.color) + ", 0.5)";
+	  game.board.fillRect(lastPos.x * 8, lastPos.y * 8, 8, 8);
 	};
 
 	Player.prototype.changeDirection = function (key) {
@@ -1680,6 +1687,17 @@
 	    this.direction = "down";
 	  }
 	};
+
+	function hexToRgb(hex) {
+	  var resultObj = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	  var result = resultObj ? {
+	    r: parseInt(resultObj[1], 16),
+	    g: parseInt(resultObj[2], 16),
+	    b: parseInt(resultObj[3], 16)
+	  } : null;
+
+	  return result.r + "," + result.g + "," + result.b;
+	}
 
 	module.exports = Player;
 

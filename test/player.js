@@ -73,13 +73,13 @@ describe('player within game object', function() {
   beforeEach(function() {
     game = new Game();
     game.createBoard();
-    game.playerOne = new Player("red", { x: 10, y: 30 }, "right", otherKeys);
-    game.playerTwo = new Player("blue", { x: 110, y: 30 }, "left", keys);
+    game.playerOne = new Player("#14CDE8", { x: 10, y: 30 }, "right", otherKeys);
+    game.playerTwo = new Player("#E2AA13", { x: 110, y: 30 }, "left", keys);
   });
 
   it('moves player one', function(){
     game.playerOne.move(game);
-    var lastPos = game.playerOne.trail[game.playerOne.trail.length - 1]
+    var lastPos = game.playerOne.trail[game.playerOne.trail.length - 1];
 
     assert.equal(lastPos.x, 11);
     assert.equal(lastPos.y, 30);
@@ -87,7 +87,7 @@ describe('player within game object', function() {
 
   it('moves player two', function(){
     game.playerTwo.move(game);
-    var lastPos = game.playerTwo.trail[game.playerTwo.trail.length - 1]
+    var lastPos = game.playerTwo.trail[game.playerTwo.trail.length - 1];
 
     assert.equal(lastPos.x, 109);
     assert.equal(lastPos.y, 30);
