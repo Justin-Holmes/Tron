@@ -61,10 +61,10 @@ describe('player', function() {
 });
 
 const otherKeys = {
-  left:  "65",
-  up:    "87",
-  right: "68",
-  down:  "83"
+  left:  65,
+  up:    87,
+  right: 68,
+  down:  83
 };
 
 describe('player within game object', function() {
