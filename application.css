@@ -92,3 +92,15 @@ body {
   background-image: url("lib/assets/images/tron-background.jpg");
   background-size:cover;
 }
+
+#start-game {
+  color: limegreen;
+}
+
+#player1 {
+  color: #14CDE8;
+}
+
+#player2 {
+  color: #E2AA13;
+}

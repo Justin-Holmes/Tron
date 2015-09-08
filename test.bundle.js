@@ -1550,7 +1550,7 @@
 	  var width = $(canvas).width();
 	  var height = $(canvas).height();
 	  var img = new Image();
-	  img.src = "./lib/grid.png";
+	  img.src = "./lib/assets/images/grid.png";
 
 	  img.onload = function () {
 	    var pattern = context.createPattern(img, "repeat");
@@ -1567,6 +1567,7 @@
 	Game.prototype.start = function () {
 	  this.createBoard();
 	  this.createPlayers();
+	  debugger;
 	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
@@ -1659,7 +1660,6 @@
 	};
 
 	Player.prototype.changeDirection = function (key) {
-	  debugger;
 	  if (key === this.keyBindings.left && this.direction !== "right") {
 	    this.direction = "left";
 	  } else if (key === this.keyBindings.up && this.direction !== "down") {
