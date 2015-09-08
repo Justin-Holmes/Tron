@@ -59,6 +59,13 @@
 	  });
 	}
 
+	function startGame(key) {
+	  if (key === 13 && !game.playerOne) {
+	    game.start();
+	    document.getElementById("instructions").style.display = 'none';
+	  }
+	}
+
 	function playersChangeDirection(key) {
 	  game.playerOne.changeDirection(key);
 	  game.playerTwo.changeDirection(key);
@@ -69,26 +76,21 @@
 	    document.getElementById("end").style.display = 'none';
 
 	    game = new Game();
+	    game.createBoard();
 	    game.start();
 	  }
 	}
-
-	function startGame(key) {
-	  if (key === 13 && typeof game.playerOne !== "object") {
-	    game.start();
-	    document.getElementById("instructions").style.display = 'none';
-	  }
-	}
-
-	$(document).ready(function () {
-	  keyInput();
-	  flashStartGame();
-	});
 
 	function flashStartGame() {
 	  $('#start-game').animate({ opacity: .2 }, 1200);
 	  $('#start-game').animate({ opacity: .9 }, 1200, flashStartGame);
 	}
+
+	$(document).ready(function () {
+	  game.createBoard();
+	  flashStartGame();
+	  keyInput();
+	});
 
 /***/ },
 /* 1 */
@@ -1596,9 +1598,7 @@
 	};
 
 	Game.prototype.start = function () {
-	  this.createBoard();
 	  this.createPlayers();
-	  debugger;
 	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 

@@ -1565,9 +1565,7 @@
 	};
 
 	Game.prototype.start = function () {
-	  this.createBoard();
 	  this.createPlayers();
-	  debugger;
 	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
