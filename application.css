@@ -90,6 +90,8 @@ canvas {
 }
 
 #end p {
+  position: relative;
+  top: 40px;
   color: #6FC3DF;
   font-size: 50px;
   font-family: "Tron";
