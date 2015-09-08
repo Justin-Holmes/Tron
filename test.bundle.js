@@ -1560,14 +1560,12 @@
 	};
 
 	Game.prototype.createPlayers = function () {
-	  this.playerOne = new Player("#14CDE8", { x: 10, y: 30 }, "right", this.oneKeys);
+	  this.playerOne = new Player("#FF0000", { x: 10, y: 30 }, "right", this.oneKeys);
 	  this.playerTwo = new Player("#E2AA13", { x: 90, y: 30 }, "left", this.twoKeys);
 	};
 
 	Game.prototype.start = function () {
-	  this.createBoard();
 	  this.createPlayers();
-	  debugger;
 	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
@@ -1708,8 +1706,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css", function() {
-			var newContent = require("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css");
+		module.hot.accept("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css", function() {
+			var newContent = require("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -2005,11 +2003,11 @@
 
 	  var player;
 	  beforeEach(function () {
-	    player = new Player("blue", { x: 110, y: 30 }, "left", keys);
+	    player = new Player("#FF0000", { x: 110, y: 30 }, "left", keys);
 	  });
 
 	  it('initializes with a color, trail, direction, and keyBindings', function () {
-	    assert.equal(player.color, "blue");
+	    assert.equal(player.color, "#FF0000");
 	    assert.equal(player.direction, "left");
 	    assert.equal(player.keyBindings, keys);
 	    assert.equal(player.trail[0].x, 110);
@@ -2059,7 +2057,7 @@
 	  beforeEach(function () {
 	    game = new Game();
 	    game.createBoard();
-	    game.playerOne = new Player("#14CDE8", { x: 10, y: 30 }, "right", otherKeys);
+	    game.playerOne = new Player("#FF0000", { x: 10, y: 30 }, "right", otherKeys);
 	    game.playerTwo = new Player("#E2AA13", { x: 110, y: 30 }, "left", keys);
 	  });
 

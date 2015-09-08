@@ -59,6 +59,13 @@
 	  });
 	}
 
+	function startGame(key) {
+	  if (key === 13 && !game.playerOne) {
+	    game.start();
+	    document.getElementById("instructions").style.display = 'none';
+	  }
+	}
+
 	function playersChangeDirection(key) {
 	  game.playerOne.changeDirection(key);
 	  game.playerTwo.changeDirection(key);
@@ -68,6 +75,7 @@
 	  if (game.end && key === 13) {
 	    document.getElementById("end").style.display = 'none';
 	    game = new Game();
+	    game.createBoard();
 	    game.start();
 	  }
 	}
@@ -79,15 +87,16 @@
 	  }
 	};
 
-	$(document).ready(function () {
-	  keyInput();
-	  flashStartGame();
-	});
-
 	function flashStartGame() {
 	  $('#start-game').animate({ opacity: .2 }, 1200);
 	  $('#start-game').animate({ opacity: .9 }, 1200, flashStartGame);
 	}
+
+	$(document).ready(function () {
+	  game.createBoard();
+	  flashStartGame();
+	  keyInput();
+	});
 
 /***/ },
 /* 1 */
@@ -1590,14 +1599,12 @@
 	};
 
 	Game.prototype.createPlayers = function () {
-	  this.playerOne = new Player("#14CDE8", { x: 10, y: 30 }, "right", this.oneKeys);
+	  this.playerOne = new Player("#FF0000", { x: 10, y: 30 }, "right", this.oneKeys);
 	  this.playerTwo = new Player("#E2AA13", { x: 90, y: 30 }, "left", this.twoKeys);
 	};
 
 	Game.prototype.start = function () {
-	  this.createBoard();
 	  this.createPlayers();
-	  debugger;
 	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
