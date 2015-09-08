@@ -1550,7 +1550,7 @@
 	  var width = $(canvas).width();
 	  var height = $(canvas).height();
 	  var img = new Image();
-	  img.src = "./lib/grid.png";
+	  img.src = "./lib/assets/images/grid.png";
 
 	  img.onload = function () {
 	    var pattern = context.createPattern(img, "repeat");

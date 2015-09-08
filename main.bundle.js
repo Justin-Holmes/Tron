@@ -51,6 +51,11 @@
 
 	var game = new Game();
 
+	$(document).ready(function () {
+	  game.start();
+	  keyInput();
+	});
+
 	function keyInput() {
 	  $(document).keydown(function (k) {
 	    playersChangeDirection(k.which);
@@ -66,16 +71,10 @@
 	function resetGame(key) {
 	  if (game.end && key === 13) {
 	    document.getElementById("end").style.display = 'none';
-
 	    game = new Game();
 	    game.start();
 	  }
 	}
-
-	$(document).ready(function () {
-	  game.start();
-	  keyInput();
-	});
 
 /***/ },
 /* 1 */
@@ -1568,7 +1567,7 @@
 	  var width = $(canvas).width();
 	  var height = $(canvas).height();
 	  var img = new Image();
-	  img.src = "./lib/grid.png";
+	  img.src = "./lib/assets/images/grid.png";
 
 	  img.onload = function () {
 	    var pattern = context.createPattern(img, "repeat");
