@@ -1529,16 +1529,16 @@
 
 	function Game() {
 	  this.oneKeys = {
-	    left: "65",
-	    up: "87",
-	    right: "68",
-	    down: "83"
+	    left: 65,
+	    up: 87,
+	    right: 68,
+	    down: 83
 	  };
 	  this.twoKeys = {
-	    left: "37",
-	    up: "38",
-	    right: "39",
-	    down: "40"
+	    left: 37,
+	    up: 38,
+	    right: 39,
+	    down: 40
 	  };
 	  this.end = false;
 	}
@@ -1587,7 +1587,7 @@
 	};
 
 	Game.prototype.borderCollision = function (position) {
-	  return position.x == -1 || position.x == 800 / 8 || position.y == -1 || position.y == 480 / 8;
+	  return position.x === -1 || position.x === 800 / 8 || position.y === -1 || position.y === 480 / 8;
 	};
 
 	Game.prototype.playerCollision = function (position, player) {
@@ -1659,13 +1659,14 @@
 	};
 
 	Player.prototype.changeDirection = function (key) {
-	  if (key == this.keyBindings.left && this.direction != "right") {
+	  debugger;
+	  if (key === this.keyBindings.left && this.direction !== "right") {
 	    this.direction = "left";
-	  } else if (key == this.keyBindings.up && this.direction != "down") {
+	  } else if (key === this.keyBindings.up && this.direction !== "down") {
 	    this.direction = "up";
-	  } else if (key == this.keyBindings.right && this.direction != "left") {
+	  } else if (key === this.keyBindings.right && this.direction !== "left") {
 	    this.direction = "right";
-	  } else if (key == this.keyBindings.down && this.direction != "up") {
+	  } else if (key === this.keyBindings.down && this.direction !== "up") {
 	    this.direction = "down";
 	  }
 	};
