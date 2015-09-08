@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Tron'; /*a name to be used later*/
-  src: url('Tr2n.ttf'); /*URL to font*/
+  font-family: 'Tron';
+  src: url('lib/assets/Tr2n.ttf');
 }
 
 canvas {
@@ -36,6 +36,6 @@ audio {
 }
 
 body {
-  background-image: url("tron-background.jpg");
+  background-image: url("lib/assets/images/tron-background.jpg");
   background-size:cover;
 }
