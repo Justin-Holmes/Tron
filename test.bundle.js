@@ -1560,7 +1560,7 @@
 	};
 
 	Game.prototype.createPlayers = function () {
-	  this.playerOne = new Player("#14CDE8", { x: 10, y: 30 }, "right", this.oneKeys);
+	  this.playerOne = new Player("#FF0000", { x: 10, y: 30 }, "right", this.oneKeys);
 	  this.playerTwo = new Player("#E2AA13", { x: 90, y: 30 }, "left", this.twoKeys);
 	};
 
@@ -2003,11 +2003,11 @@
 
 	  var player;
 	  beforeEach(function () {
-	    player = new Player("blue", { x: 110, y: 30 }, "left", keys);
+	    player = new Player("#FF0000", { x: 110, y: 30 }, "left", keys);
 	  });
 
 	  it('initializes with a color, trail, direction, and keyBindings', function () {
-	    assert.equal(player.color, "blue");
+	    assert.equal(player.color, "#FF0000");
 	    assert.equal(player.direction, "left");
 	    assert.equal(player.keyBindings, keys);
 	    assert.equal(player.trail[0].x, 110);
@@ -2057,7 +2057,7 @@
 	  beforeEach(function () {
 	    game = new Game();
 	    game.createBoard();
-	    game.playerOne = new Player("#14CDE8", { x: 10, y: 30 }, "right", otherKeys);
+	    game.playerOne = new Player("#FF0000", { x: 10, y: 30 }, "right", otherKeys);
 	    game.playerTwo = new Player("#E2AA13", { x: 110, y: 30 }, "left", keys);
 	  });
 
