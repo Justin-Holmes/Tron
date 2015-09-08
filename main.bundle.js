@@ -82,8 +82,8 @@
 	}
 
 	function flashStartGame() {
-	  $('#start-game').animate({ opacity: .2 }, 1200);
-	  $('#start-game').animate({ opacity: .9 }, 1200, flashStartGame);
+	  $('#start-game').animate({ opacity: 0.2 }, 1200);
+	  $('#start-game').animate({ opacity: 0.9 }, 1200, flashStartGame);
 	}
 
 	$(document).ready(function () {
@@ -1593,13 +1593,13 @@
 	};
 
 	Game.prototype.createPlayers = function () {
-	  this.playerOne = new Player("#FF0000", { x: 10, y: 30 }, "right", this.oneKeys);
-	  this.playerTwo = new Player("#E2AA13", { x: 90, y: 30 }, "left", this.twoKeys);
+	  this.playerOne = new Player("#FF0000", { x: 15, y: 50 }, "right", this.oneKeys);
+	  this.playerTwo = new Player("#E2AA13", { x: 145, y: 50 }, "left", this.twoKeys);
 	};
 
 	Game.prototype.start = function () {
 	  this.createPlayers();
-	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
+	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 20);
 	};
 
 	Game.prototype.movePlayers = function () {
@@ -1619,7 +1619,7 @@
 	};
 
 	Game.prototype.borderCollision = function (position) {
-	  return position.x === -1 || position.x === 800 / 8 || position.y === -1 || position.y === 480 / 8;
+	  return position.x === -1 || position.x === 800 / 5 || position.y === -1 || position.y === 500 / 5;
 	};
 
 	Game.prototype.playerCollision = function (position, player) {
@@ -1685,19 +1685,19 @@
 	Player.prototype.colorize = function (game) {
 	  var lastPos = this.trail[this.trail.length - 1];
 	  game.board.strokeStyle = this.color;
-	  game.board.strokeRect(lastPos.x * 8, lastPos.y * 8, 8, 8);
+	  game.board.strokeRect(lastPos.x * 5, lastPos.y * 5, 5, 5);
 	  game.board.fillStyle = "rgba(" + hexToRgb(this.color) + ", 0.5)";
-	  game.board.fillRect(lastPos.x * 8, lastPos.y * 8, 8, 8);
+	  game.board.fillRect(lastPos.x * 5, lastPos.y * 5, 5, 5);
 	};
 
 	Player.prototype.changeDirection = function (key) {
-	  if (key == this.keyBindings.left && this.direction !== "right") {
+	  if (key === this.keyBindings.left && this.direction !== "right") {
 	    this.direction = "left";
-	  } else if (key == this.keyBindings.up && this.direction !== "down") {
+	  } else if (key === this.keyBindings.up && this.direction !== "down") {
 	    this.direction = "up";
-	  } else if (key == this.keyBindings.right && this.direction !== "left") {
+	  } else if (key === this.keyBindings.right && this.direction !== "left") {
 	    this.direction = "right";
-	  } else if (key == this.keyBindings.down && this.direction !== "up") {
+	  } else if (key === this.keyBindings.down && this.direction !== "up") {
 	    this.direction = "down";
 	  }
 	};

@@ -1560,13 +1560,13 @@
 	};
 
 	Game.prototype.createPlayers = function () {
-	  this.playerOne = new Player("#FF0000", { x: 10, y: 30 }, "right", this.oneKeys);
-	  this.playerTwo = new Player("#E2AA13", { x: 90, y: 30 }, "left", this.twoKeys);
+	  this.playerOne = new Player("#FF0000", { x: 15, y: 50 }, "right", this.oneKeys);
+	  this.playerTwo = new Player("#E2AA13", { x: 145, y: 50 }, "left", this.twoKeys);
 	};
 
 	Game.prototype.start = function () {
 	  this.createPlayers();
-	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
+	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 20);
 	};
 
 	Game.prototype.movePlayers = function () {
@@ -1586,7 +1586,7 @@
 	};
 
 	Game.prototype.borderCollision = function (position) {
-	  return position.x === -1 || position.x === 800 / 8 || position.y === -1 || position.y === 480 / 8;
+	  return position.x === -1 || position.x === 800 / 5 || position.y === -1 || position.y === 500 / 5;
 	};
 
 	Game.prototype.playerCollision = function (position, player) {
@@ -1652,19 +1652,19 @@
 	Player.prototype.colorize = function (game) {
 	  var lastPos = this.trail[this.trail.length - 1];
 	  game.board.strokeStyle = this.color;
-	  game.board.strokeRect(lastPos.x * 8, lastPos.y * 8, 8, 8);
+	  game.board.strokeRect(lastPos.x * 5, lastPos.y * 5, 5, 5);
 	  game.board.fillStyle = "rgba(" + hexToRgb(this.color) + ", 0.5)";
-	  game.board.fillRect(lastPos.x * 8, lastPos.y * 8, 8, 8);
+	  game.board.fillRect(lastPos.x * 5, lastPos.y * 5, 5, 5);
 	};
 
 	Player.prototype.changeDirection = function (key) {
-	  if (key == this.keyBindings.left && this.direction !== "right") {
+	  if (key === this.keyBindings.left && this.direction !== "right") {
 	    this.direction = "left";
-	  } else if (key == this.keyBindings.up && this.direction !== "down") {
+	  } else if (key === this.keyBindings.up && this.direction !== "down") {
 	    this.direction = "up";
-	  } else if (key == this.keyBindings.right && this.direction !== "left") {
+	  } else if (key === this.keyBindings.right && this.direction !== "left") {
 	    this.direction = "right";
-	  } else if (key == this.keyBindings.down && this.direction !== "up") {
+	  } else if (key === this.keyBindings.down && this.direction !== "up") {
 	    this.direction = "down";
 	  }
 	};
@@ -1706,8 +1706,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css", function() {
-			var newContent = require("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css");
+		module.hot.accept("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css", function() {
+			var newContent = require("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
