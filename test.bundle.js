@@ -1706,8 +1706,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css", function() {
-			var newContent = require("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css");
+		module.hot.accept("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css", function() {
+			var newContent = require("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -1989,10 +1989,10 @@
 	var Game = __webpack_require__(2);
 
 	var keys = {
-	  left: "37",
-	  up: "38",
-	  right: "39",
-	  down: "40"
+	  left: 37,
+	  up: 38,
+	  right: 39,
+	  down: 40
 	};
 
 	describe('player', function () {
@@ -2045,10 +2045,10 @@
 	});
 
 	var otherKeys = {
-	  left: "65",
-	  up: "87",
-	  right: "68",
-	  down: "83"
+	  left: 65,
+	  up: 87,
+	  right: 68,
+	  down: 83
 	};
 
 	describe('player within game object', function () {

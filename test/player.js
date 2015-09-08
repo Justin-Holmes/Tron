@@ -4,10 +4,10 @@ const Player = require('../lib/player');
 const Game   = require('../lib/game');
 
 const keys = {
-  left:  "37",
-  up:    "38",
-  right: "39",
-  down:  "40"
+  left:  37,
+  up:    38,
+  right: 39,
+  down:  40
 };
 
 describe('player', function() {
@@ -61,10 +61,10 @@ describe('player', function() {
 });
 
 const otherKeys = {
-  left:  "65",
-  up:    "87",
-  right: "68",
-  down:  "83"
+  left:  65,
+  up:    87,
+  right: 68,
+  down:  83
 };
 
 describe('player within game object', function() {
