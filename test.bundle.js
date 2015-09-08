@@ -1567,6 +1567,7 @@
 	Game.prototype.start = function () {
 	  this.createBoard();
 	  this.createPlayers();
+	  debugger;
 	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
@@ -1707,8 +1708,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css", function() {
-			var newContent = require("!!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/margie/turing/module_4/projects/Tron/node_modules/mocha/mocha.css");
+		module.hot.accept("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css", function() {
+			var newContent = require("!!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha-loader/node_modules/css-loader/index.js!/Users/Justin/Turing/Module4/game-time-starter-kit/node_modules/mocha/mocha.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});

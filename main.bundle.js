@@ -74,15 +74,21 @@
 	}
 
 	function startGame(key) {
-	  if (key === 13) {
-	    document.getElementById("instructions").style.display = 'none';
+	  if (key === 13 && typeof game.playerOne !== "object") {
 	    game.start();
+	    document.getElementById("instructions").style.display = 'none';
 	  }
 	}
 
 	$(document).ready(function () {
 	  keyInput();
+	  flashStartGame();
 	});
+
+	function flashStartGame() {
+	  $('#start-game').animate({ opacity: .2 }, 1200);
+	  $('#start-game').animate({ opacity: .9 }, 1200, flashStartGame);
+	}
 
 /***/ },
 /* 1 */
@@ -1592,6 +1598,7 @@
 	Game.prototype.start = function () {
 	  this.createBoard();
 	  this.createPlayers();
+	  debugger;
 	  this.gameLoopInterval = setInterval(this.movePlayers.bind(this), 30);
 	};
 
