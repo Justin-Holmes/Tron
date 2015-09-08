@@ -51,11 +51,6 @@
 
 	var game = new Game();
 
-	$(document).ready(function () {
-	  game.start();
-	  keyInput();
-	});
-
 	function keyInput() {
 	  $(document).keydown(function (k) {
 	    startGame(k.which);
@@ -82,7 +77,7 @@
 	    game.start();
 	    document.getElementById("instructions").style.display = 'none';
 	  }
-	}
+	};
 
 	$(document).ready(function () {
 	  keyInput();
