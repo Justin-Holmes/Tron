@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Tron'; /*a name to be used later*/
+  src: url('Tr2n.ttf'); /*URL to font*/
+}
+
 canvas {
   margin: auto;
   position: absolute;
@@ -5,21 +10,19 @@ canvas {
 }
 
 #end {
-  display: none;
-  position: absolute;
-  top: 200px;
-  left: 300px;
   margin: auto;
-  padding: auto;
-  width: 775px;
-  height: 175px;
-  background-color: green;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  display: none;
+  width: 800px;
+  height: 480px;
+  background-color: rgba(12, 20, 31, .7);
 }
 
 #end p {
-  color: white;
-  font-size: 40px;
-  font-family: "Georgia";
+  color: #6FC3DF;
+  font-size: 50px;
+  font-family: "Tron";
   text-align: center;
   padding-top: 20px;
 }
