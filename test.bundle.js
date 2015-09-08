@@ -1989,10 +1989,10 @@
 	var Game = __webpack_require__(2);
 
 	var keys = {
-	  left: "37",
-	  up: "38",
-	  right: "39",
-	  down: "40"
+	  left: 37,
+	  up: 38,
+	  right: 39,
+	  down: 40
 	};
 
 	describe('player', function () {
@@ -2045,10 +2045,10 @@
 	});
 
 	var otherKeys = {
-	  left: "65",
-	  up: "87",
-	  right: "68",
-	  down: "83"
+	  left: 65,
+	  up: 87,
+	  right: 68,
+	  down: 83
 	};
 
 	describe('player within game object', function () {
@@ -9368,7 +9368,7 @@
 	  it('detects a border collision', function () {
 	    game.start();
 	    var noCollision = { x: 0, y: 0 };
-	    var collisions = [{ x: -1, y: 0 }, { x: 100, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 60 }];
+	    var collisions = [{ x: -1, y: 0 }, { x: 160, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 100 }];
 
 	    assert.equal(game.borderCollision(noCollision), false);
 
@@ -9381,7 +9381,7 @@
 	    game.start();
 
 	    assert.equal(game.playerCollision({ x: 0, y: 0 }, game.playerOne), undefined);
-	    assert.equal(game.playerCollision({ x: 10, y: 30 }, game.playerOne), true);
+	    assert.equal(game.playerCollision({ x: 15, y: 50 }, game.playerOne), true);
 	  });
 	});
 

@@ -50,7 +50,7 @@ describe('game', function() {
   it('detects a border collision', function() {
     game.start();
     var noCollision = { x: 0, y: 0 };
-    var collisions   = [{ x: -1, y: 0 }, { x: 100, y: 0 }, { x: 0, y: -1}, { x: 0, y: 60 }];
+    var collisions   = [{ x: -1, y: 0 }, { x: 160, y: 0 }, { x: 0, y: -1}, { x: 0, y: 100 }];
 
     assert.equal(game.borderCollision(noCollision), false);
 
@@ -63,6 +63,6 @@ describe('game', function() {
     game.start();
 
     assert.equal(game.playerCollision({ x: 0, y: 0 }, game.playerOne), undefined);
-    assert.equal(game.playerCollision({ x: 10, y: 30 }, game.playerOne), true);
+    assert.equal(game.playerCollision({ x: 15, y: 50 }, game.playerOne), true);
   });
 });
