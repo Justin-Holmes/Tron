@@ -3,6 +3,11 @@
   src: url('lib/assets/Tr2n.ttf');
 }
 
+body {
+  background-image: url("lib/assets/images/tron-background.jpg");
+  background-size: cover;
+}
+
 canvas {
   margin: auto;
   position: absolute;
@@ -21,13 +26,13 @@ canvas {
   font-size: 20px;
   font-family: 'Orbitron', sans-serif;
   text-align: center;
-
 }
 
 #instructions h1 {
   color: #6FC3DF;
   font-size: 50px;
   font-family: 'Tron';
+  margin-top: 45px;
   margin-bottom: 20px;
 }
 
@@ -37,7 +42,7 @@ canvas {
 
 #instructions table {
   margin:auto;
-  margin-top: 25px;
+  margin-top: 30px;
 }
 
 #instructions th {
@@ -62,6 +67,18 @@ canvas {
   font-size: 18px;
 }
 
+#start-game {
+  color: limegreen;
+}
+
+#player1 {
+  color: #FF0000;
+}
+
+#player2 {
+  color: #E2AA13;
+}
+
 #end {
   margin: auto;
   position: absolute;
@@ -73,6 +90,8 @@ canvas {
 }
 
 #end p {
+  position: relative;
+  top: 50px;
   color: #6FC3DF;
   font-size: 50px;
   font-family: "Tron";
@@ -86,21 +105,4 @@ audio {
   position: fixed;
   left: 0;
   bottom: 0;
-}
-
-body {
-  background-image: url("lib/assets/images/tron-background.jpg");
-  background-size:cover;
-}
-
-#start-game {
-  color: limegreen;
-}
-
-#player1 {
-  color: #14CDE8;
-}
-
-#player2 {
-  color: #E2AA13;
 }
