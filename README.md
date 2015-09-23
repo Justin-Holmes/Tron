@@ -4,6 +4,8 @@ Live link: http://justin-holmes.github.io/Tron/
 
 Created by [aoili](https://github.com/aoili) and myself.
 
+Two player Tron Light Cycle game. Features music that plays upon game load and allows for two individuals to play on the same keyboard. Game is hosted on Github Pages.
+
 
 ### Configuration
 
