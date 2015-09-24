@@ -1,6 +1,6 @@
 # TRON: Light Cycle Game
 
-Live link: http://justin-holmes.github.io/Tron/
+Live link: http://bit.ly/1jclyYg
 
 Created by [aoili](https://github.com/aoili) and myself.
 
