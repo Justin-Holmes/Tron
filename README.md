@@ -2,7 +2,7 @@
 
 Live link: http://bit.ly/1jclyYg
 
-Created by [aoili](https://github.com/aoili) and myself.
+Created by [margie101](https://github.com/margie101) and myself.
 
 Two player Tron Light Cycle game. Features music that plays upon game load and allows for two individuals to play on the same keyboard. Game is hosted on Github Pages.
 
